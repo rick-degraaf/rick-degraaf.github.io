@@ -3,19 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rick de Graaf</title>
+    <meta name="description" content="Portfolio of Rick de Graaf, MSc Robotics Graduate">
+    <title>Rick de Graaf | Robotics Engineer</title>
     <style>
-        /* 1. CSS VARIABLES (Easy to change colors here) */
+        /* 1. CSS VARIABLES & DARK MODE SUPPORT */
         :root {
             --bg-color: #ffffff;
             --text-color: #111111;
-            --secondary-color: #666666;
-            --link-hover: #000000;
+            --secondary-color: #555555;
+            --accent-color: #0055ff; /* A "Tech" blue for focus/accents */
+            --spacing-unit: 1.5rem;
         }
 
-        /* 2. BASE STYLES */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #111111;
+                --text-color: #eeeeee;
+                --secondary-color: #aaaaaa;
+                --accent-color: #4da6ff;
+            }
+        }
+
+        /* 2. BASE STYLES & ANIMATION */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Inter", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
@@ -24,63 +35,105 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh; /* Centers content vertically */
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* 3. LAYOUT CONTAINER */
+        /* 3. LAYOUT & ANIMATION */
         .container {
             max-width: 600px;
             width: 100%;
             padding: 40px;
+            animation: fadeIn 1.2s cubic-bezier(0.22, 1, 0.36, 1); /* Smooth entry */
         }
 
         /* 4. TYPOGRAPHY */
         h1 {
-            font-weight: 700;
-            font-size: 2.5rem;
-            letter-spacing: -0.05em; /* Tighter letters for modern look */
-            margin-bottom: 0.5rem;
+            font-weight: 800;
+            font-size: 3rem;
+            letter-spacing: -0.06em;
+            margin-bottom: 0.2rem;
             margin-top: 0;
+            line-height: 1.1;
         }
 
         .subtitle {
             color: var(--secondary-color);
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-unit);
             font-weight: 400;
+            display: block; /* Ensures it sits on its own line */
         }
 
-        p {
-            margin-bottom: 1.5rem;
-            font-size: 1.05rem;
+        .bio {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin-bottom: 2.5rem;
+            max-width: 90%;
         }
 
-        /* 5. LINKS LIST */
+        /* 5. CREATIVE LINKS */
         ul.links {
             list-style: none;
             padding: 0;
-            margin-top: 3rem;
+            margin: 0;
             display: flex;
-            gap: 20px; /* Space between links */
+            gap: 24px;
+            flex-wrap: wrap;
         }
 
         a {
             color: var(--secondary-color);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.2s ease;
-            font-size: 0.95rem;
+            font-size: 1rem;
+            position: relative;
+            transition: color 0.3s ease;
+            padding-bottom: 2px;
+        }
+
+        /* Creative Hover Effect: Sliding Underline */
+        a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent-color);
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
         }
 
         a:hover {
-            color: var(--link-hover);
-            text-decoration: underline;
+            color: var(--text-color);
+        }
+
+        a:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* 6. ACCESSIBILITY (Focus States) */
+        a:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 4px;
+            border-radius: 2px;
+            color: var(--text-color);
+        }
+
+        /* Keyframes for animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Mobile Adjustment */
         @media (max-width: 600px) {
-            h1 { font-size: 2rem; }
-            .container { padding: 20px; }
+            h1 { font-size: 2.5rem; }
+            .container { padding: 25px; }
+            .bio { font-size: 1rem; }
         }
     </style>
 </head>
@@ -88,12 +141,17 @@
 
     <main class="container">
         <h1>Rick de Graaf</h1>
-        <div class="subtitle">MSc Robotics Graduate</div>
+        <span class="subtitle">MSc Robotics Graduate</span>
+        
+        <p class="bio">
+          
+        </p>
+
         <ul class="links">
-            <li><a href="mailto:rick.j.b.degraaf@gmail.com">Email</a></li>
-            <li><a href="https://github.com/rick-degraaf">GitHub</a></li>
-            <li><a href="https://www.linkedin.com/in/rjbdegraaf/">LinkedIn</a></li>
-        </ul>
+            <li><a href="mailto:rick.j.b.degraaf@gmail.com" aria-label="Send email to Rick">Email</a></li>
+            <li><a href="https://github.com/rick-degraaf" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/rjbdegraaf/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            </ul>
     </main>
 
 </body>
