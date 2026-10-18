@@ -1,883 +1,1002 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio of Rick de Graaf, Graduate Robotics Engineer">
-    <title>Rick de Graaf | Robotics Engineer</title>
-    <style>
-        /* 1. CSS VARIABLES */
-        :root {
-            --bg-color: #ffffff;
-            --text-color: #000000;
-            --secondary-color: #666666;
-            --inactive-color: #e0e0e0;
-            --accent-color: #0055ff;
-            --spacing-unit: 1.5rem;
-        }
-
-        /* 2. BASE STYLES */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* 3. STICKY TEXT NAVIGATION */
-        .top-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(8px);
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            padding: 20px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .nav-links-container {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 0 20px;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: var(--secondary-color);
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            bottom: -4px;
-            left: 0;
-            background-color: var(--text-color);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-
-        .nav-link:hover { color: var(--text-color); }
-        
-        .nav-link.active {
-            color: var(--text-color);
-            font-weight: 600;
-        }
-
-        .nav-link.active::after {
-            transform: scaleX(1);
-        }
-
-        /* 4. LAYOUT & SECTIONS */
-        main {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 80px; 
-        }
-
-        section {
-            width: 100%;
-            max-width: 900px; 
-            padding: 40px 20px; 
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-            scroll-margin-top: 100px; 
-        }
-
-        section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ABOUT ME LAYOUT CONSTRAINTS */
-        .about-row {
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-        }
-
-        .about-content {
-            flex: 1.4;
-        }
-
-        .about-media {
-            flex: 0.8;
-            display: flex;
-            justify-content: center;
-        }
-
-        .profile-photo {
-            width: 100%;
-            max-width: 240px;
-            aspect-ratio: 4 / 5;
-            border-radius: 12px;
-            border: 1px solid rgba(0, 0, 0, 0.08); 
-            box-shadow: 
-                0 4px 6px rgba(0, 0, 0, 0.02),
-                0 12px 30px rgba(0, 0, 0, 0.06);
-            object-fit: cover;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
-        }
-
-        .profile-photo:hover {
-            transform: translateY(-6px);
-            box-shadow: 
-                0 10px 15px rgba(0, 0, 0, 0.03),
-                0 25px 50px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* 5. TYPOGRAPHY */
-        h1 {
-            font-weight: 800;
-            font-size: 3.5rem;
-            letter-spacing: -0.05em;
-            margin: 0 0 0.5rem 0;
-            line-height: 1.1;
-        }
-
-        h2 {
-            font-size: 2rem;
-            margin-top: 1rem;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid var(--text-color);
-            padding-bottom: 0.5rem;
-            display: inline-block;
-        }
-
-        .subtitle {
-            color: var(--secondary-color);
-            font-size: 1.25rem;
-            margin-bottom: var(--spacing-unit);
-            font-weight: 400;
-            display: block;
-        }
-
-        p {
-            font-size: 1.1rem;
-            color: var(--secondary-color);
-            margin-bottom: 1.5rem;
-        }
-
-        /* 6. LINKS & BUTTONS */
-        a.text-link {
-            color: var(--secondary-color);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1rem;
-            position: relative;
-            padding-bottom: 2px;
-        }
-
-        a.text-link::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            transform: scaleX(0);
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: var(--accent-color);
-            transform-origin: bottom right;
-            transition: transform 0.25s ease-out;
-        }
-
-        a.text-link:hover { color: var(--text-color); }
-        a.text-link:hover::after { transform: scaleX(1); transform-origin: bottom left; }
-
-        .btn {
-            display: inline-block;
-            background-color: var(--text-color);
-            color: var(--bg-color);
-            padding: 12px 24px;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: 600;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            margin-top: 1rem;
-        }
-
-        .btn:hover {
-            background-color: var(--accent-color);
-            transform: translateY(-2px);
-        }
-
-        /* 7. CONTACT ICON LINKS */
-        .contact-links {
-            display: flex;
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .contact-link {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--secondary-color);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1.05rem;
-            padding: 10px 16px;
-            border-radius: 6px;
-            border: 1px solid var(--inactive-color);
-            transition: all 0.2s ease;
-            background-color: var(--bg-color);
-        }
-
-        .contact-link svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-        }
-
-        .contact-link:hover {
-            color: var(--accent-color);
-            border-color: var(--accent-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-        }
-
-        /* 8. SKILLS GRID */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 1rem;
-        }
-
-        .card {
-            border: 1px solid var(--inactive-color);
-            padding: 1.5rem;
-            border-radius: 8px;
-        }
-
-        .card h3 { margin-top: 0; margin-bottom: 0.5rem; }
-        
-        /* 9. TIMELINE LAYOUT (For Experience & Education) */
-        .timeline {
-            position: relative;
-            padding-left: 40px;
-            margin-top: 1.5rem;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 10px;
-            width: 2px;
-            background-color: var(--inactive-color);
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: 2.5rem;
-        }
-
-        .timeline-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            top: 1.8rem; 
-            left: -36px; 
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background-color: var(--bg-color);
-            border: 2px solid var(--accent-color);
-            z-index: 1;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .timeline-item:hover::before {
-            background-color: var(--accent-color);
-            transform: scale(1.1);
-        }
-
-        .timeline-content {
-            background: var(--bg-color);
-            padding: 1.5rem 2rem;
-            border-radius: 8px;
-            border: 1px solid var(--inactive-color);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .timeline-item:hover .timeline-content {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-
-        .timeline-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid var(--inactive-color);
-            padding-bottom: 0.75rem;
-        }
-
-        .header-title-group {
-            display: flex;
-            align-items: center;
-            gap: 1.25rem;
-        }
-
-        .company-logo {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .timeline-content h3 {
-            margin: 0;
-            font-size: 1.3rem;
-            color: var(--text-color);
-        }
-
-        .timeline-content h4 {
-            margin: 0;
-            font-size: 1.1rem;
-            color: var(--text-color);
-            font-weight: 600;
-        }
-
-        .timeline-content .date-location {
-            font-size: 0.9rem;
-            color: var(--secondary-color);
-            font-weight: 500;
-            margin-top: 0.25rem;
-        }
-
-        /* 10. TIMELINE BODY & MEDIA */
-        .timeline-body {
-            display: flex;
-            gap: 1.5rem;
-            align-items: flex-start;
-        }
-
-        .timeline-text {
-            flex: 1;
-        }
-
-        .timeline-text p {
-            margin: 0 0 1rem 0;
-            font-size: 1rem;
-        }
-
-        .timeline-text p:last-child {
-            margin-bottom: 0;
-        }
-
-        .timeline-media-right {
-            flex-shrink: 0;
-            width: 220px; 
-        }
-
-        .timeline-media-right a {
-            display: block;
-            text-decoration: none;
-            transition: transform 0.2s ease;
-        }
-
-        .timeline-media-right a:hover {
-            transform: translateY(-3px);
-        }
-
-        .timeline-media-right img {
-            width: 100%;
-            height: auto;
-            border-radius: 6px;
-            border: 1px solid var(--inactive-color);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-            display: block;
-        }
-
-        /* 11. MSC THESIS LAYOUT */
-        .thesis-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 3rem;
-            margin-top: 1rem;
-        }
-
-        .thesis-content {
-            flex: 1.3;
-        }
-
-        .thesis-content ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.2rem;
-            color: var(--secondary-color);
-            font-size: 1.05rem;
-        }
-
-        .thesis-content li {
-            margin-bottom: 0.75rem;
-        }
-
-        .thesis-content li:last-child {
-            margin-bottom: 0;
-        }
-
-        .thesis-media {
-            flex: 1;
-            width: 100%;
-        }
-
-        .thesis-media img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            display: block;
-            background-color: var(--inactive-color);
-        }
-
-        /* 12. ALTERNATING PROJECTS LAYOUT */
-        .project-row {
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-            padding-bottom: 3rem;
-            margin-bottom: 3rem;
-            border-bottom: 1px solid var(--inactive-color);
-        }
-
-        .project-row:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-            margin-bottom: 0;
-        }
-
-        .project-row:nth-child(even) {
-            flex-direction: row-reverse;
-        }
-
-        .project-content { flex: 1; }
-        .project-content h3 { margin-top: 0; font-size: 1.5rem; }
-        .project-media { flex: 1; width: 100%; }
-
-        .project-media img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            display: block;
-            background-color: var(--inactive-color); 
-        }
-
-        /* MOBILE ADJUSTMENTS */
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .nav-links-container { gap: 1rem; }
-            .nav-link { font-size: 0.85rem; }
-            section { padding: 30px 20px; }
-            
-            .about-row, .thesis-row {
-                flex-direction: column-reverse;
-                gap: 1.5rem;
-            }
-
-            .project-row, .project-row:nth-child(even) {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-
-            .timeline { padding-left: 25px; }
-            .timeline::before { left: 0px; }
-            .timeline-item::before { left: -32px; }
-            .timeline-content { padding: 1.5rem; }
-            .timeline-header { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
-            .company-logo { width: 40px; height: 40px; }
-
-            .timeline-body {
-                flex-direction: column;
-            }
-            .timeline-media-right {
-                width: 100%;
-                max-width: 300px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Rick de Graaf — Portfolio</title>
+
+<!-- Google Fonts: Fraunces & DM Sans -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..600&family=Fraunces:opsz,wght@9..144,500..600&display=swap" rel="stylesheet">
+
+
+<style>
+/* ==========================================================================
+1. STRICT MONOCHROME / GREYSCALE DESIGN TOKENS
+   ========================================================================== */
+
+:root {
+  --bg-canvas: #faf9f7;
+  --bg-pill: rgba(255, 255, 255, 0.88);
+  --bg-indicator: rgba(23, 23, 23, 0.09);
+
+  --ink: #171717;
+  --ink-muted: #737373;
+  --ink-faint: #a3a3a3;
+
+  --edge: #e5e5e5;
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-ui: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ==========================================================================
+   2. BASE & RESET
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  font-family: var(--font-ui);
+  background-color: var(--bg-canvas);
+  color: var(--ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: rgba(23, 23, 23, 0.12);
+  color: var(--ink);
+}
+
+/* ==========================================================================
+   3. FLOATING PILL NAVIGATION
+   ========================================================================== */
+
+.nav-wrapper {
+  position: fixed;
+  top: 1.5rem;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: center;
+
+  padding: 0 1rem;
+  pointer-events: none;
+}
+
+.pill-nav {
+  pointer-events: auto;
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+
+  padding: 0.35rem;
+
+  border-radius: 9999px;
+  background: var(--bg-pill);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid var(--edge);
+
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.04),
+    0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+/* Sliding translucent grey indicator */
+
+.nav-indicator {
+  position: absolute;
+
+  top: 0.35rem;
+  bottom: 0.35rem;
+  left: 0.35rem;
+
+  width: 0;
+
+  border-radius: 9999px;
+  background-color: var(--bg-indicator);
+
+  pointer-events: none;
+  z-index: 0;
+
+  transform: translateX(0);
+
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Navigation links */
+
+.nav-link,
+.nav-link:focus,
+.nav-link:focus-visible,
+.nav-link:active {
+  position: relative;
+  z-index: 1;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  text-decoration: none;
+  outline: none;
+
+  color: var(--ink-muted);
+
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  padding: 0.45rem 1.1rem;
+
+  border-radius: 9999px;
+
+  transition: color 0.2s ease;
+
+  white-space: nowrap;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--ink);
+}
+
+/* Keyboard accessibility */
+
+.nav-link:focus-visible {
+  outline: 2px solid var(--ink-muted);
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   4. FULL-WIDTH SECTIONS
+   ========================================================================== */
+
+main {
+  width: 100%;
+}
+
+section {
+  width: 100%;
+  min-height: 85vh;
+
+  border-top: 1px solid var(--edge);
+
+  display: flex;
+  justify-content: center;
+
+  scroll-margin-top: 5rem;
+}
+
+section:first-of-type {
+  border-top: none;
+  min-height: 92vh;
+}
+
+/* Section content */
+
+.section-inner {
+  width: 100%;
+  max-width: 1200px;
+
+  padding: 6.5rem 2rem 4rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  text-align: left;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw, 2.6rem);
+  font-weight: 500;
+
+  letter-spacing: -0.02em;
+
+  color: var(--ink);
+
+  margin-bottom: 0.5rem;
+}
+
+.section-placeholder {
+  font-size: 0.95rem;
+  color: var(--ink-faint);
+}
+
+/* ==========================================================================
+   5. RESPONSIVE DESIGN
+   ========================================================================== */
+
+@media (max-width: 600px) {
+  .nav-wrapper {
+    top: 1rem;
+    padding: 0 0.5rem;
+  }
+
+  .pill-nav {
+    max-width: 100%;
+    padding: 0.3rem;
+  }
+
+  .nav-link,
+  .nav-link:focus,
+  .nav-link:focus-visible,
+  .nav-link:active {
+    padding: 0.4rem 0.55rem;
+    font-size: 0.72rem;
+  }
+
+  .nav-indicator {
+    top: 0.3rem;
+    bottom: 0.3rem;
+  }
+
+  .section-inner {
+    padding: 5.5rem 1.25rem 3rem;
+  }
+}
+
+/* Respect reduced-motion preferences */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .nav-indicator,
+  .nav-link {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   ABOUT SECTION LAYOUT
+   ========================================================================== */
+
+.about-container {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 4rem;
+  align-items: center;
+  max-width: 1040px;
+}
+
+.about-bio {
+  font-size: 1.125rem;
+  color: var(--ink-muted);
+  line-height: 1.7;
+  margin-top: 1rem;
+}
+
+.about-image-wrapper {
+  width: 100%;
+  aspect-ratio: 1 / 1.2;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid var(--edge);
+  background-color: var(--edge);
+}
+
+.profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-name {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 4.5vw, 3.5rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  line-height: 1.1;
+  margin-bottom: 1.25rem;
+}
+
+/* ==========================================================================
+   ABOUT SECTION SOCIAL BUTTONS
+   ========================================================================== */
+
+.about-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.social-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: white;
+  border: 1px solid var(--edge);
+  border-radius: 9999px;
+  color: var(--ink);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease;
+}
+
+.social-btn:hover {
+  border-color: var(--ink-faint);
+  background-color: var(--bg-canvas);
+  transform: translateY(-1px);
+}
+
+.social-icon {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+@media (max-width: 768px) {
+  .about-container {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  
+  .about-image-wrapper {
+    max-width: 260px;
+    margin: 0 auto;
+  }
+}
+
+#contact {
+  min-height: auto;
+  padding-bottom: 8rem;
+}
+
+/* ==========================================================================
+   EXPERIENCE HORIZONTAL ROW LAYOUT
+   ========================================================================== */
+
+.experience-track {
+  display: flex;
+  gap: 1.5rem;
+  width: 100%;
+  margin-top: 2rem;
+  align-items: stretch;
+}
+
+.exp-card {
+  flex: 1;
+  background-color: #ffffff;
+  border: 1px solid var(--edge);
+  border-radius: 20px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.exp-card:hover {
+  border-color: var(--ink-faint);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* Top Section: Logo, Role, Company, Date */
+.exp-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.exp-logo-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.exp-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.75rem;
+  border: 1px solid var(--edge);
+  background: var(--bg-canvas);
+  color: var(--ink);
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.exp-role-group h3 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.exp-company {
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+  font-weight: 500;
+}
+
+.exp-date {
+  font-size: 0.7rem;
+  color: var(--ink-faint);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  padding-top: 0.2rem;
+}
+
+/* Middle Section: Left Text, Right Image side-by-side */
+.exp-content-body {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+  flex: 1;
+}
+
+.exp-text-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.exp-text-details p {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  line-height: 1.45;
+}
+
+.exp-bullets {
+  list-style-type: disc;
+  padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.exp-bullets li {
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+  line-height: 1.4;
+}
+
+.exp-media-wrapper {
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--edge);
+  background-color: var(--bg-canvas);
+  flex-shrink: 0;
+}
+
+.exp-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Bottom Section: Location */
+.exp-footer {
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+  font-weight: 500;
+  border-top: 1px solid var(--edge);
+  padding-top: 0.75rem;
+  margin-top: auto;
+}
+
+/* Responsive breakpoint for smaller screens */
+@media (max-width: 1024px) {
+  .experience-track {
+    flex-direction: column;
+  }
+  .exp-card {
+    width: 100%;
+  }
+}
+</style>
 </head>
+
 <body>
 
-    <nav class="top-nav">
-        <div class="nav-links-container">
-            <a href="#about" class="nav-link active">About Me</a>
-            <a href="#skills" class="nav-link">Skills</a>
-            <a href="#experience" class="nav-link">Experience</a>
-            <a href="#thesis" class="nav-link">MSc Thesis</a>
-            <a href="#projects" class="nav-link">Projects</a>
-            <a href="#education" class="nav-link">Education</a>
-            <a href="#contact" class="nav-link">Contact</a>
+<!-- ==========================================================================
+     FLOATING NAVIGATION
+     ========================================================================== -->
+
+<header class="nav-wrapper">
+  <nav class="pill-nav" id="pillNav" aria-label="Main navigation">
+
+    <!-- Sliding grey indicator -->
+    <div class="nav-indicator" id="navIndicator" aria-hidden="true"></div>
+
+    <a href="#about" class="nav-link active" aria-current="location">
+      About Me
+    </a>
+
+    <a href="#experience" class="nav-link">
+      Experience
+    </a>
+
+    <a href="#projects" class="nav-link">
+      Projects
+    </a>
+
+    <a href="#education" class="nav-link">
+      Education
+    </a>
+
+    <a href="#contact" class="nav-link">
+      Contact
+    </a>
+
+  </nav>
+</header>
+
+
+<!-- ==========================================================================
+     MAIN CONTENT
+     ========================================================================== -->
+
+<main>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-inner about-container">
+      <div class="about-text">
+        <h1 class="hero-name">Rick de Graaf</h1>
+        <p class="about-bio">
+          Welcome to my portfolio! Here, I showcase my experience, projects, and education as I build my path in tech. I'm currently exploring opportunities within robotics, computer vision & AI. <br> Feel free to reach out, I'm always open to chat!
+        </p>
+        
+        <!-- Contact Links Bar -->
+        <div class="about-socials">
+          <!-- LinkedIn -->
+          <a href="https://linkedin.com/in/rjbdegraaf/" target="_blank" rel="noopener noreferrer" class="social-btn">
+            <svg class="social-icon" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+            <span>LinkedIn</span>
+          </a>
+
+          <!-- GitHub -->
+          <a href="https://github.com/rick-degraaf" target="_blank" rel="noopener noreferrer" class="social-btn">
+            <svg class="social-icon" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+            <span>GitHub</span>
+          </a>
+
+          <!-- Email -->
+          <a href="mailto:rick.j.b.degraaf@gmail.com" class="social-btn">
+            <svg class="social-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <span>Email</span>
+          </a>
         </div>
-    </nav>
+      </div>
+      <div class="about-image-wrapper">
+        <img src="assets/images/profile.jpg" alt="Rick de Graaf" class="profile-img">
+      </div>
+    </div>
+  </section>
 
-    <main>
-        <section id="about" class="visible">
-            <div class="about-row">
-                <div class="about-content">
-                    <h1>Rick de Graaf</h1>
-                    <span class="subtitle">Robotics Engineer</span>
-                    <p>MSc Robotics student at Delft University of Technology with hands-on experience in autonomous systems, computer vision, and AI gained at Siemens RTD DT & AI. Skilled in Python, ROS, and PyTorch, with a proven track record of developing robotic prototypes and automated perception pipelines. Seeking graduate/junior engineer roles in robotics, mechatronics, software and AI in London Area from September 2026.</p>
-                    
-                    <div class="contact-links">
-                        <a href="mailto:rick.j.b.degraaf@gmail.com" class="contact-link">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                            Email
-                        </a>
-                        
-                        <a href="https://www.linkedin.com/in/rjbdegraaf/" target="_blank" rel="noopener noreferrer" class="contact-link">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-                            LinkedIn
-                        </a>
-        
-                        <a href="https://github.com/rick-degraaf" target="_blank" rel="noopener noreferrer" class="contact-link">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-                            GitHub
-                        </a>
-                    </div>
-                </div>
-                <div class="about-media">
-                    <img src="assets/images/personal_picture.png" alt="Rick de Graaf Portrait" class="profile-photo">
-                </div>
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-inner" style="max-width: 1260px;">
+      <h2 class="section-title">Experience</h2>
+      
+      <div class="experience-track">
+
+        <!-- Card 1: Siemens -->
+        <div class="exp-card">
+          <!-- Top: Logo, Role, Company, Date -->
+          <div class="exp-header">
+            <div class="exp-logo-title">
+              <img src="assets/logo/siemens.png" alt="Siemens Logo" class="exp-logo" style="border:none; background:transparent;">
+              <div class="exp-role-group">
+                <h3>Research Engineer</h3>
+                <div class="exp-company">Siemens Digital Industries Software</div>
+              </div>
             </div>
-        </section>
+            <div class="exp-date">Sept 2025 – Aug 2026</div>
+          </div>
 
-        <section id="skills">
-            <h2>Skills</h2>
-            <p>A high-level overview of the tools, frameworks, and core engineering concepts I utilize to solve complex robotics problems.</p>
-            <div class="grid">
-                <div class="card">
-                    <h3>Software & Frameworks</h3>
-                    <p>Python, C++, Bash, Git, Docker, ROS, ROS2, PyTorch, SolidWorks</p>
-                </div>
-                <div class="card">
-                    <h3>Languages</h3>
-                    <p>Native Dutch, Fluent English</p>
-                </div>
+          <!-- Middle: Left Text, Right Image -->
+          <div class="exp-content-body">
+            <div class="exp-text-details">
+              <p>MSc Thesis conducted in collaboration with Siemens R&D, building advanced 3D computer vision frameworks.</p>
+              <ul class="exp-bullets">
+                <li>Developed camera-only 3D Gaussian Splatting framework.</li>
+                <li>Cut Chamfer distance by 62% against ground truth.</li>
+              </ul>
             </div>
-        </section>
-
-        <section id="experience">
-            <h2>Experience</h2>
-            <div class="timeline">
-                
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <div class="header-title-group">
-                                <img src="assets/logo/siemens.png" alt="Siemens Logo" class="company-logo">
-                                <div>
-                                    <h3>Research Engineer Intern</h3>
-                                    <h4>Siemens Digital Industries Software</h4>
-                                </div>
-                            </div>
-                            <span class="date-location">Sept 2025 – Present | Leuven, Belgium</span>
-                        </div>
-                        <div class="timeline-body">
-                            <div class="timeline-text">
-                                <p>Developed an automated semantic scene understanding pipeline on nuScenes and internal datasets using state-of-the-art VLMs, RAG, and Chain-of-Thought reasoning. Implemented in PyTorch with CUDA and Docker, featuring a prompted scene retrieval system for semantic text-based search. Built an automated 3D detection and tracking labeling pipeline leveraging multi-view monocular reconstruction and segmentation to accelerate autonomous driving scene annotation.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <div class="header-title-group">
-                                <img src="assets/logo/tudelft.png" alt="TU Delft Logo" class="company-logo">
-                                <div>
-                                    <h3>Teaching Assistant</h3>
-                                    <h4>Delft University of Technology</h4>
-                                </div>
-                            </div>
-                            <span class="date-location">Feb 2025 – Apr 2025 & Feb 2024 – Apr 2024</span>
-                        </div>
-                        
-                        <div class="timeline-body">
-                            <div class="timeline-text">
-                                <p>Instructed and mentored students on the implementation of ROS (Robot Operating System) and Python for a Bachelor’s Robotics course. Provided technical support for custom circuits and PID controllers, and assessed final projects, including an autonomous package delivery robot.</p>
-                            </div>
-                            <div class="timeline-media-right">
-                                <a href="https://www.tudelft.nl/en/2025/me/news/from-easter-eggs-to-medication-bachelors-students-design-creative-delivery-robots" target="_blank" rel="noopener noreferrer" title="Read the TU Delft feature on our students' robots">
-                                    <img src="assets/images/teaching_assistant.png" alt="TU Delft students testing delivery robots">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <div class="header-title-group">
-                                <img src="assets/logo/shell.png" alt="Shell Logo" class="company-logo">
-                                <div>
-                                    <h3>Summer Intern</h3>
-                                    <h4>Shell Renewables</h4>
-                                </div>
-                            </div>
-                            <span class="date-location">Jul 2023 – Aug 2023 | The Hague, Netherlands</span>
-                        </div>
-                        <div class="timeline-body">
-                            <div class="timeline-text">
-                                <p>Investigated the use of Rare Earth Elements (REEs) in wind turbines, conducting a data analysis of material usage from major suppliers (GE, Siemens, Vestas) and exploring potential alternatives, concluding with a final pitch of key findings to the Renewables team.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="exp-media-wrapper">
+              <img src="assets/animations/msc_thesis.gif" alt="Siemens 3D Gaussian Splatting Thesis Preview" class="exp-media">
             </div>
-        </section>
+          </div>
 
-        <section id="thesis">
-            <h2>MSc Thesis: Advancing Real2Sim for High-Fidelity 3D Reconstruction</h2>
-            
-            <p>This research focused on creating high-fidelity digital twins of large-scale urban environments for Siemens' Real2Sim pipeline. By leveraging Gaussian Splatting methods, geometric supervision, and semantically efficient distillation combined with a divide-and-conquer approach, we achieved a scalable, camera-only workflow for producing simulation-ready digital twins.</p>
-        
-            <div class="thesis-row">
-                <div class="thesis-content">
-                    <h3 style="margin-top: 0; margin-bottom: 1rem;">Key Contributions:</h3>
-                    <ul>
-                        <li><strong>Camera-Only Workflow:</strong> Scalable 3D scene representation eliminating the need for complex multi-sensor setups.</li>
-                        <li><strong>Divide-and-Conquer Scaling:</strong> Intelligent chunk-based processing and merging to handle massive urban environments.</li>
-                        <li><strong>High-Fidelity Digital Twins:</strong> Geometric Gaussian Splatting for photorealistic and physically accurate simulation environments.</li>
-                        <li><strong>Semantic Distillation:</strong> Efficient feature distillation to embed semantic understanding directly into the 3D representation.</li>
-                        <li><strong>Real-World Validation:</strong> Rigorous evaluation using data captured from Siemens' internal multi-sensor acquisition vehicles.</li>
-                    </ul>
-                    <a href="#" class="text-link" target="_blank" style="display: inline-block;">Read Full Thesis (PDF) &rarr;</a>
-                </div>
-                
-                <div class="thesis-media">
-                    <img src="assets/images/thesis_placeholder.gif" alt="MSc Thesis Visualization Placeholder">
-                </div>
+          <span style="display: inline-flex; align-items: center; gap: 0.35rem;">
+            <svg style="width: 13px; height: 13px; fill: currentColor; opacity: 0.7;" viewBox="0 0 24 24">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            Leuven, Belgium
+          </span>
+        </div>
+
+        <!-- Card 2: TU Delft -->
+        <div class="exp-card">
+          <!-- Top: Logo, Role, Company, Date -->
+          <div class="exp-header">
+            <div class="exp-logo-title">
+              <img src="assets/logo/tudelft.png" alt="Tu Delft Logo" class="exp-logo" style="border:none; background:transparent;">
+              <div class="exp-role-group">
+                <h3>Teaching Assistant</h3>
+                <div class="exp-company">Delft University of Technology</div>
+              </div>
             </div>
-        </section>
+            <div class="exp-date">Feb 2024 – Apr 2025</div>
+          </div>
 
-        <section id="projects">
-            <h2>Projects</h2>
-            
-            <div class="project-row">
-                <div class="project-content">
-                    <h3>Autonomous SLAM Navigator</h3>
-                    <p><strong>Tech:</strong> ROS2, C++, LiDAR, Gazebo</p>
-                    <p>Developed a full software stack for a differential drive robot to map unknown environments. Implemented a custom implementation of the A* pathfinding algorithm integrated with the Nav2 stack, allowing the robot to dynamically recalculate paths when obstacles were introduced to the physical test course.</p>
-                    <a href="#" class="text-link" target="_blank">View Repository &rarr;</a>
-                </div>
-                <div class="project-media">
-                    <img src="assets/animations/tactile_gripper.gif" alt="Simulation of Autonomous Navigator in Gazebo">
-                </div>
+          <!-- Middle: Left Text, Right Image -->
+          <div class="exp-content-body">
+            <div class="exp-text-details">
+              <p>Guided hands-on robotics development and engineering fundamentals for second-year bachelor cohorts.</p>
+              <ul class="exp-bullets">
+                <li>Instructed 500 students in Python, Arduino, ROS2.</li>
+                <li>Evaluated 239 final robot test day prototypes.</li>
+              </ul>
             </div>
-
-            <div class="project-row">
-                <div class="project-content">
-                    <h3>6-DOF Robotic Arm Controller</h3>
-                    <p><strong>Tech:</strong> Python, Inverse Kinematics, Arduino</p>
-                    <p>Engineered a Python-based graphical interface to control a physical 6-axis robotic arm. The project required writing a custom inverse kinematics solver from scratch using Denavit-Hartenberg parameters to translate XYZ Cartesian coordinates into exact joint angles sent to the motor drivers.</p>
-                    <a href="#" class="text-link" target="_blank">View Repository &rarr;</a>
-                </div>
-                <div class="project-media">
-                    <img src="assets/images/warehouse_path_planning_manipulator_control.png" alt="6-DOF Robotic arm picking up an object">
-                </div>
+            <div class="exp-media-wrapper">
+              <img src="assets/images/teaching_assistant.png" alt="TU Delft Teaching Assistant Lab Preview" class="exp-media">
             </div>
+          </div>
 
-            <div class="project-row">
-                <div class="project-content">
-                    <h3>Computer Vision Object Tracker</h3>
-                    <p><strong>Tech:</strong> OpenCV, Python, YOLOv5</p>
-                    <p>Designed a real-time object tracking system capable of identifying and following specific tools on a workbench. The system processes camera feeds at 30 FPS and outputs bounding box coordinates to a serial port, which were subsequently used to orient a pan-tilt camera mechanism.</p>
-                    <a href="#" class="text-link" target="_blank">View Repository &rarr;</a>
-                </div>
-                <div class="project-media">
-                    <img src="assets/images/MDP-2025.png" alt="Computer vision tracking interface showing bounding boxes">
-                </div>
+          <span style="display: inline-flex; align-items: center; gap: 0.35rem;">
+            <svg style="width: 13px; height: 13px; fill: currentColor; opacity: 0.7;" viewBox="0 0 24 24">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            Delft, The Netherlands
+          </span>
+        </div>
+
+        <!-- Card 3: Shell Renewables -->
+        <div class="exp-card">
+          <!-- Top: Logo, Role, Company, Date -->
+          <div class="exp-header">
+            <div class="exp-logo-title">
+              <img src="assets/logo/shell.png" alt="Shell Logo" class="exp-logo" style="border:none; background:transparent;">
+              <div class="exp-role-group">
+                <h3>Summer Intern</h3>
+                <div class="exp-company">Shell Renewables</div>
+              </div>
             </div>
+            <div class="exp-date">Jul 2023</div>
+          </div>
 
-            <div class="project-row">
-                <div class="project-content">
-                    <h3>Computer Vision Object Tracker</h3>
-                    <p><strong>Tech:</strong> OpenCV, Python, YOLOv5</p>
-                    <p>Designed a real-time object tracking system capable of identifying and following specific tools on a workbench. The system processes camera feeds at 30 FPS and outputs bounding box coordinates to a serial port, which were subsequently used to orient a pan-tilt camera mechanism.</p>
-                    <a href="#" class="text-link" target="_blank">View Repository &rarr;</a>
-                </div>
-                <div class="project-media">
-                    <img src="assets/images/ROS2_C++_pedestrian_detection_navigation.png" alt= "Computer vision tracking interface showing bounding boxes">
-                </div>
+          <!-- Middle: Left Text, Right Image -->
+          <div class="exp-content-body">
+            <div class="exp-text-details">
+              <p>Investigated critical material supply chains and sustainability strategies within the renewables department.</p>
+              <ul class="exp-bullets">
+                <li>Analyzed Rare Earth Element (REE) use in wind turbines.</li>
+                <li>Presented strategic recommendations to leadership.</li>
+              </ul>
             </div>
-        
-            <div class="project-row">
-                <div class="project-content">
-                    <h3>Computer Vision Object Tracker</h3>
-                    <p><strong>Tech:</strong> OpenCV, Python, YOLOv5</p>
-                    <p>Designed a real-time object tracking system capable of identifying and following specific tools on a workbench. The system processes camera feeds at 30 FPS and outputs bounding box coordinates to a serial port, which were subsequently used to orient a pan-tilt camera mechanism.</p>
-                    <a href="#" class="text-link" target="_blank">View Repository &rarr;</a>
-                </div>
-                <div class="project-media">
-                    <img src="assets/images/3D_perception_KF.png" alt="vision tracking interface showing bounding boxes">
-                </div>
+            <div class="exp-media-wrapper">
+              <img src="assets/images/wind_turbine.jpg" alt="Shell Renewables Wind Turbine Project" class="exp-media">
             </div>
-        </section>
+          </div>
 
-        <section id="education">
-            <h2>Education</h2>
-            <div class="timeline">
-                
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <div class="header-title-group">
-                                <img src="assets/logo/tudelft.png" alt="TU Delft Logo" class="company-logo">
-                                <div>
-                                    <h3>MSc in Robotics</h3>
-                                    <h4>Delft University of Technology</h4>
-                                </div>
-                            </div>
-                            <span class="date-location">Sept 2024 – Jul 2026</span>
-                        </div>
-                        <div class="timeline-body">
-                            <div class="timeline-text">
-                                <p><strong>GPA:</strong> 8.13/10</p>
-                                <p><strong>Relevant Coursework:</strong> Computer Vision, Machine Learning, Planning & Decision Algorithms, Robot Operating Software, Human Robot Interaction, Robotic Dynamics & Control, Autonomous Vehicles.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          <span style="display: inline-flex; align-items: center; gap: 0.35rem;">
+            <svg style="width: 13px; height: 13px; fill: currentColor; opacity: 0.7;" viewBox="0 0 24 24">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            The Hague, The Netherlands
+          </span>
+        </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <div class="header-title-group">
-                                <img src="assets/logo/waterloo.png" alt="University of Waterloo Logo" class="company-logo">
-                                <div>
-                                    <h3>Bachelor’s Exchange Program</h3>
-                                    <h4>University of Waterloo, Canada</h4>
-                                </div>
-                            </div>
-                            <span class="date-location">Sept 2023 – Jan 2024</span>
-                        </div>
-                        <div class="timeline-body">
-                            <div class="timeline-text">
-                                <p><strong>GPA:</strong> 8.54/10</p>
-                                <p><strong>Relevant Coursework:</strong> Optimization, Computer Programming, and Electromechanical Design.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      </div>
+    </div>
+  </section>
 
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <div class="header-title-group">
-                                <img src="assets/logo/tudelft.png" alt="TU Delft Logo" class="company-logo">
-                                <div>
-                                    <h3>BSc in Mechanical Engineering</h3>
-                                    <h4>Delft University of Technology</h4>
-                                </div>
-                            </div>
-                            <span class="date-location">Sept 2021 – Jul 2024</span>
-                        </div>
-                        <div class="timeline-body">
-                            <div class="timeline-text">
-                                <p><strong>GPA:</strong> 8.99/10 (Top 0.4%)</p>
-                                <p><strong>Relevant Coursework:</strong> Fundamentals in Calculus, Linear Algebra, Systems and Control, Integrated System Design, Dynamics, and Robotic Fundamentals.</p>
-                                <p><em>Bachelor’s End Project:</em> Developed a tactile gripper with impedance control for delicate grasping of fruits, demonstrating proficiency in robotic design, prototyping, and testing.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-inner">
+      <h2 class="section-title">Projects</h2>
+      <p class="section-placeholder">
+        Section scaffold ready for content.
+      </p>
+    </div>
+  </section>
 
-            </div>
-        </section>
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-inner">
+      <h2 class="section-title">Education</h2>
+      <p class="section-placeholder">
+        Section scaffold ready for content.
+      </p>
+    </div>
+  </section>
 
-        <section id="contact">
-            <h2>Contact</h2>
-            <p>I am currently open to new opportunities in robotics engineering. Whether you have a position available, want to collaborate on an open-source project, or just want to discuss autonomous systems, my inbox is open.</p>
-            
-            <div class="contact-links">
-                <a href="mailto:rick.j.b.degraaf@gmail.com" class="contact-link">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                    Email Me
-                </a>
-                
-                <a href="https://www.linkedin.com/in/rjbdegraaf/" target="_blank" rel="noopener noreferrer" class="contact-link">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-                    LinkedIn
-                </a>
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-inner">
+      <h2 class="section-title">Contact</h2>
+      <p class="about-bio" style="margin-top: 0; margin-bottom: 1.5rem;">
+        Thank you for viewing my portfolio. Reach out to me, always up for discussing opportunities or just a chat!
+      </p>
+      
+      <!-- Contact Links Bar -->
+      <div class="about-socials" style="margin-top: 0;">
+        <!-- LinkedIn -->
+        <a href="https://linkedin.com/in/rjbdegraaf/" target="_blank" rel="noopener noreferrer" class="social-btn">
+          <svg class="social-icon" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+          <span>LinkedIn</span>
+        </a>
 
-                <a href="https://github.com/rick-degraaf" target="_blank" rel="noopener noreferrer" class="contact-link">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-                    GitHub
-                </a>
-            </div>
-        </section>
-    </main>
+        <!-- GitHub -->
+        <a href="https://github.com/rick-degraaf" target="_blank" rel="noopener noreferrer" class="social-btn">
+          <svg class="social-icon" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+          <span>GitHub</span>
+        </a>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const sections = document.querySelectorAll("section");
-            const navLinks = document.querySelectorAll(".nav-link");
+        <!-- Email -->
+        <a href="mailto:rick.j.b.degraaf@gmail.com" class="social-btn">
+          <svg class="social-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          <span>Email</span>
+        </a>
+      </div>
+    </div>
+  </section>
 
-            const observerOptions = {
-                root: null,
-                rootMargin: '-10% 0px -20% 0px', 
-                threshold: 0.10 
-            };
+</main>
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        
-                        const currentId = entry.target.getAttribute('id');
-                        navLinks.forEach(link => {
-                            link.classList.remove('active');
-                            if (link.getAttribute('href') === `#${currentId}`) {
-                                link.classList.add('active');
-                            }
-                        });
-                    }
-                });
-            }, observerOptions);
 
-            sections.forEach(section => observer.observe(section));
-        });
-    </script>
+<!-- ==========================================================================
+     SMOOTH SLIDING NAVIGATION SCRIPT
+     ========================================================================== -->
+
+<script>
+(function () {
+  const nav = document.getElementById("pillNav");
+  const indicator = document.getElementById("navIndicator");
+
+  const navLinks = Array.from(
+    document.querySelectorAll(".nav-link")
+  );
+
+  const sections = Array.from(
+    document.querySelectorAll("main section")
+  );
+
+  let scrollLock = false;
+  let scrollLockTimer = null;
+  let scrollAnimationFrame = null;
+  let ticking = false;
+
+  function moveIndicator(activeLink) {
+    if (!activeLink || !indicator || !nav) return;
+
+    const navRect = nav.getBoundingClientRect();
+    const linkRect = activeLink.getBoundingClientRect();
+
+    const navContentLeft = navRect.left + nav.clientLeft;
+    const linkLeft = linkRect.left;
+
+    const indicatorLeft = indicator.offsetLeft;
+    const targetX = linkLeft - navContentLeft;
+
+    indicator.style.width = activeLink.offsetWidth + "px";
+    indicator.style.transform = `translateX(${targetX}px)`;
+  }
+
+  function setActive(activeLink) {
+    if (!activeLink) return;
+
+    navLinks.forEach(function (link) {
+      const isActive = link === activeLink;
+
+      link.classList.toggle("active", isActive);
+
+      if (isActive) {
+        link.setAttribute("aria-current", "location");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+
+    moveIndicator(activeLink);
+  }
+
+  function syncOnScroll() {
+    if (scrollLock || sections.length === 0) return;
+
+    const triggerLine = window.innerHeight * 0.35;
+
+    let currentSection = sections[0];
+
+    for (const section of sections) {
+      const rect = section.getBoundingClientRect();
+
+      if (rect.top <= triggerLine) {
+        currentSection = section;
+      } else {
+        break;
+      }
+    }
+
+    const scrollPosition =
+      window.scrollY + window.innerHeight;
+
+    const pageHeight =
+      document.documentElement.scrollHeight;
+
+    if (scrollPosition >= pageHeight - 5) {
+      currentSection = sections[sections.length - 1];
+    }
+
+    const matchingLink = navLinks.find(function (link) {
+      return link.getAttribute("href") === "#" + currentSection.id;
+    });
+
+    if (matchingLink) {
+      setActive(matchingLink);
+    }
+  }
+
+  navLinks.forEach(function (link) {
+    link.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      const targetId = link.getAttribute("href").slice(1);
+      const targetSection = document.getElementById(targetId);
+
+      if (!targetSection) return;
+
+      clearTimeout(scrollLockTimer);
+      cancelAnimationFrame(scrollAnimationFrame);
+
+      setActive(link);
+
+      scrollLock = true;
+      history.replaceState(null, "", "#" + targetId);
+
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      targetSection.scrollIntoView({
+        behavior: reduceMotion ? "auto" : "smooth",
+        block: "start"
+      });
+
+      let lastScrollY = window.scrollY;
+      let stableFrames = 0;
+
+      function waitForScrollToSettle() {
+        const currentScrollY = window.scrollY;
+
+        if (Math.abs(currentScrollY - lastScrollY) < 1) {
+          stableFrames++;
+        } else {
+          stableFrames = 0;
+        }
+
+        lastScrollY = currentScrollY;
+
+        if (stableFrames >= 8) {
+          scrollLock = false;
+          syncOnScroll();
+          return;
+        }
+
+        scrollAnimationFrame = requestAnimationFrame(
+          waitForScrollToSettle
+        );
+      }
+
+      scrollAnimationFrame = requestAnimationFrame(
+        waitForScrollToSettle
+      );
+
+      scrollLockTimer = setTimeout(function () {
+        cancelAnimationFrame(scrollAnimationFrame);
+        scrollLock = false;
+        syncOnScroll();
+      }, 2500);
+    });
+  });
+
+  window.addEventListener(
+    "scroll",
+    function () {
+      if (ticking) return;
+
+      ticking = true;
+
+      requestAnimationFrame(function () {
+        syncOnScroll();
+        ticking = false;
+      });
+    },
+    { passive: true }
+  );
+
+  window.addEventListener("resize", function () {
+    const activeLink = navLinks.find(function (link) {
+      return link.classList.contains("active");
+    });
+
+    moveIndicator(activeLink);
+  });
+
+  function initializeNavigation() {
+    const currentHash = window.location.hash;
+
+    const initialLink = navLinks.find(function (link) {
+      return link.getAttribute("href") === currentHash;
+    });
+
+    const activeLink = initialLink || navLinks[0];
+
+    setActive(activeLink);
+
+    requestAnimationFrame(function () {
+      moveIndicator(activeLink);
+    });
+  }
+
+  if (document.readyState === "complete") {
+    initializeNavigation();
+  } else {
+    window.addEventListener(
+      "load",
+      initializeNavigation,
+      { once: true }
+    );
+  }
+
+})();
+</script>
+
 </body>
 </html>
