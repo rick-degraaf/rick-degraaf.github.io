@@ -816,14 +816,9 @@ section:first-of-type {
   function moveIndicator(activeLink) {
     if (!activeLink || !indicator || !nav) return;
 
-    const navRect = nav.getBoundingClientRect();
-    const linkRect = activeLink.getBoundingClientRect();
-
-    const navContentLeft = navRect.left + nav.clientLeft;
-    const linkLeft = linkRect.left;
-
-    const indicatorLeft = indicator.offsetLeft;
-    const targetX = linkLeft - navContentLeft;
+    // Subtract the nav's inner padding offset (0.35rem = ~5.6px, let's use 5.6 or read it dynamically)
+    const paddingOffset = parseFloat(window.getComputedStyle(nav).paddingLeft) || 5.6;
+    const targetX = activeLink.offsetLeft - paddingOffset;
 
     indicator.style.width = activeLink.offsetWidth + "px";
     indicator.style.transform = `translateX(${targetX}px)`;
