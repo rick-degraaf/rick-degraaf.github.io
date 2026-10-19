@@ -513,7 +513,7 @@ section:first-of-type {
   top: 0;
   left: 0;
   width: var(--cw, 280px);
-  height: calc(var(--cw, 280px) * 1.25);
+  height: calc(var(--cw, 280px) * 1.5);
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -535,13 +535,12 @@ section:first-of-type {
   outline: none;
 }
 
-.card:focus-visible {
-  outline: 2px solid var(--ink-muted);
-  outline-offset: 3px;
-}
+/* Card content */
+.card > * { flex-shrink: 0; }
 
 .card-media {
   position: relative;
+  width: 100%;
   aspect-ratio: 16 / 10;
   border-radius: 12px;
   border: 1px solid var(--edge);
@@ -553,9 +552,100 @@ section:first-of-type {
   font-size: 2.2rem;
   font-weight: 500;
   color: rgba(23, 23, 23, 0.25);
-  flex-shrink: 0;
   overflow: hidden;
 }
+.card-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.card-media img.fit-contain {
+  object-fit: contain;
+  background: #fff;
+}
+
+/* Fixed text slots: title = 2 lines, summary = 3 lines, then "..." */
+.card h3,
+.card-summary {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card h3 {
+  height: 3.6em;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+.card-summary {
+  height: 6em;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+}
+
+.card-foot {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.card .tags { flex-wrap: nowrap; overflow: hidden; margin-top: 0; }
+.card .tags span { white-space: nowrap; flex-shrink: 0; }
+
+.card-more {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--ink);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+.card-more svg {
+  width: 14px; height: 14px;
+  fill: none; stroke: currentColor;
+  transition: transform 0.2s ease;
+}
+.card:hover .card-more svg,
+.card-more:focus-visible svg { transform: translateX(3px); }
+.card-more:focus-visible {
+  outline: 2px solid var(--ink-muted);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Dialog */
+dialog {
+  width: min(720px, calc(100% - 2rem));
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.dlg-media {
+  display: none;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--edge);
+  background: var(--bg-canvas);
+  overflow: hidden;
+}
+.dlg-media img {
+  display: block;
+  width: 100%;
+  max-height: 55vh;
+  object-fit: contain;   /* full image, no cropping */
+}
+#dlgText { color: var(--ink-muted); font-size: 0.95rem; line-height: 1.6; }
+#dlgText p + p { margin-top: 0.75rem; }
+#dlgTags { margin-top: 1rem; }
+#dlgTags:empty { display: none; }
 
 .card h3 {
   font-family: var(--font-display);
@@ -627,7 +717,9 @@ section:first-of-type {
 /* ---------- Detail dialog ---------- */
 dialog {
   margin: auto;
-  width: min(560px, calc(100% - 2rem));
+  width: min(720px, calc(100% - 2rem));
+  max-height: 90vh;
+  overflow-y: auto;
   border: 1px solid var(--edge);
   border-radius: 20px;
   padding: 1.5rem;
@@ -644,13 +736,33 @@ dialog h3 {
   font-size: 1.4rem;
   margin-bottom: 0.5rem;
 }
-dialog p {
+.dlg-media {
+  display: none;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--edge);
+  background: var(--bg-canvas);
+  overflow: hidden;
+}
+.dlg-media img {
+  display: block;
+  width: 100%;
+  max-height: 55vh;
+  object-fit: contain;
+}
+#dlgText {
   color: var(--ink-muted);
   font-size: 0.95rem;
+  line-height: 1.6;
 }
-dialog .card-media {
-  margin-bottom: 1rem;
-  aspect-ratio: 16 / 9;
+#dlgText p + p {
+  margin-top: 0.75rem;
+}
+#dlgTags {
+  margin-top: 1rem;
+}
+#dlgTags:empty {
+  display: none;
 }
 dialog button {
   margin-top: 1.25rem;
@@ -1029,6 +1141,14 @@ dialog button:hover {
     max-width: 100%;
   }
 }
+
+.card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 </style>
 </head>
 
@@ -1256,6 +1376,7 @@ dialog button:hover {
             <div class="edu-degree-text">
               <span class="edu-kicker">Bachelor of Science</span>
               <h3>BSc Mechanical Engineering</h3>
+              <span class="edu-kicker">GPA: 8.99/10 (top 0.4%)</span>
             </div>
           </div>
 
@@ -1266,7 +1387,7 @@ dialog button:hover {
             <div class="edu-media-wrapper">
               <img src="assets/animations/tactile_gripper.gif" alt="BSc Thesis: Tactile Gripper" class="exp-media" loading="lazy">
             </div>
-            <p>Design, Prototyping and testing of an impedance-controlled tactile gripper for delicate fruit grasping.</p>
+            <p>Design, prototyping and testing of an impedance-controlled tactile gripper for delicate fruit grasping.</p>
           </div>
         </div>
 
@@ -1288,6 +1409,7 @@ dialog button:hover {
             <div class="edu-degree-text">
               <span class="edu-kicker">Master of Science</span>
               <h3>MSc Robotics</h3>
+              <span class="edu-kicker">GPA: 8.27/10</span>
             </div>
           </div>
 
@@ -1332,9 +1454,10 @@ dialog button:hover {
 </main>
 
 <dialog id="dlg">
-  <div class="card-media" id="dlgMedia"></div>
+  <div class="dlg-media" id="dlgMedia"></div>
   <h3 id="dlgTitle"></h3>
-  <p id="dlgText"></p>
+  <div id="dlgText"></div>
+  <div class="tags" id="dlgTags"></div>
   <button type="button" id="dlgClose">Close</button>
 </dialog>
 
@@ -1497,12 +1620,69 @@ dialog button:hover {
 // Projects Entrance Animation & Dialog (No scroll-lock runway; animates as it enters view)
 (function () {
   const projects = [
-    { title: "", text: "Camera-only 3D reconstruction pipeline from the MSc thesis.", tags: ["Computer Vision", "3D"] },
-    { title: "Autonomous Apple Harvesting Robot", text: "As part of a Multi-Disciplinary Project, developed the ROS2 stack of a real harvesting robot in a team of 5. The Robots functionality included unfamiliar orchard mapping & navigation, apple detection & localization and manipulator control & grasping. I was responsible for the apple vision system, fine-tuning YOLOv8 on a self-collected and labeled dataset for real time apple-detection & classification. Combined with segmented stereo vision, able to detect ripe apples and locate them within ±5 cm.", tags: ["Python", "ROS2", "Computer Vision", "ML"] },
-    { title: "Haptic Handwriting Trainer", text: "As part of Control Human Robot Interaction, in a team of 4 we developed an impedance-controlled haptic application using a Haply device. The application aimed at guiding users through the writing of unfamiliar Greek symbols, using Dynamic Time Warping for trajectory alignment and a dynamic elipsoidal haptic correcting feeback, reducing writing error across a 14-participant trial.", tags: ["Impedance Control", "Python, Human Robot Interaction"] },
-    { title: "Camera and LiDAR Fusion for 3D Object Detection", text: "As part of Advanced Machine Perception project, extended the Centerpoint framework with a camera-modality in a team of 4. By adding a camera encoder and fusing BEV-features, we improved 3D object detection accuracy by +10.9%mAP over baseline on View-of-Delft dataset.", tags: ["Computer Vision", "Machine Learning"] },
-    { title: "Tactile Gripper", text: "As part of Bachelor Thesis in a team of 4, we designed, prototyped and tested a 3D mechanical design for a tactile gripper. Designed and parameterized a straigh line linkage for striagh line grasping, and designed a capstan drive for maximal backdrivability and control. Eneded upsuccesfully grasping a delicate nectatire with impedance control.", tags: ["CAD", "Rapid Prototyping", "Impedance Control", "Linkage & Transmission Design"] }
+    {
+      title: "Geometric & Vision-Language Models for Scene Curation",
+      summary: "Framework that categorizes and retrieves diverse automotive scenes using geometric and vision-language models.",
+      text:
+        "As part of an internship at Siemens Digital Industries Software, I developed a framework capable of categorizing and retrieving a set of diverse automotive scenes, by using geometric foundation models & vision-language models.",
+      tags: ["Computer Vision", "3D"],
+      img: "",
+      imgPos: "center",
+      imgFit: "cover"
+    },
+    {
+      title: "Autonomous Apple Harvesting Robot",
+      summary: "ROS2 stack for a real harvesting robot, with YOLOv8 apple detection localizing ripe fruit within ±5 cm.",
+      text:
+        "As part of a Multi-Disciplinary Project, I developed the ROS2 stack of a real harvesting robot in a team of 5. The robot's functionality included unfamiliar orchard mapping & navigation, apple detection & localization, and manipulator control & grasping.\n\n" +
+        "I was responsible for the apple vision system, fine-tuning YOLOv8 on a self-collected and labeled dataset for real-time apple detection & classification. Combined with segmented stereo vision, the system is able to detect ripe apples and locate them within ±5 cm.",
+      tags: ["Python", "ROS2", "Computer Vision", "ML"],
+      img: "assets/images/MDP-2025.png",
+      imgPos: "center",
+      imgFit: "cover"
+    },
+    {
+      title: "Haptic Handwriting Trainer",
+      summary: "Impedance-controlled haptic app on a Haply device that guides users in writing unfamiliar Greek symbols.",
+      text:
+        "As part of Control in Human-Robot Interaction, in a team of 4 we developed an impedance-controlled haptic application using a Haply device.\n\n" +
+        "The application aimed at guiding users through the writing of unfamiliar Greek symbols, using Dynamic Time Warping for trajectory alignment and a dynamic ellipsoidal haptic correcting feedback, reducing writing error across a 14-participant trial.",
+      tags: ["Impedance Control", "Python", "Human Robot Interaction"],
+      img: "assets/animations/handwriting_guide.gif",
+      imgPos: "center",
+      imgFit: "cover"
+    },
+    {
+      title: "Camera and LiDAR Fusion for 3D Object Detection",
+      summary: "Added a camera modality to CenterPoint and fused BEV features for +10.9% mAP on View-of-Delft.",
+      text:
+        "As part of the Advanced Machine Perception project, we extended the CenterPoint framework with a camera modality in a team of 4.\n\n" +
+        "By adding a camera encoder and fusing BEV features, we improved 3D object detection accuracy by +10.9% mAP over baseline on the View-of-Delft dataset.",
+      tags: ["Computer Vision", "Machine Learning"],
+      img: "assets/images/BEV-Fusion.jpg",
+      imgPos: "center",
+      imgFit: "contain"
+    },
+    {
+      title: "Tactile Gripper",
+      summary: "Impedance-controlled gripper with a capstan drive for delicate fruit grasping.",
+      text:
+        "As part of my Bachelor Thesis in a team of 4, we designed, prototyped and tested a 3D mechanical design for a tactile gripper.\n\n" +
+        "I designed and parameterized a straight-line linkage for straight-line grasping, and a capstan drive for maximal backdrivability and control. " +
+        "The gripper ended up successfully grasping a delicate nectarine using impedance control.",
+      tags: ["CAD", "Rapid Prototyping", "Impedance Control", "Linkage & Transmission Design"],
+      img: "assets/animations/tactile_gripper.gif",
+      imgPos: "center 40%",
+      imgFit: "cover"
+    }
   ];
+
+  const MAX_TAGS = 2;
+
+  function esc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
 
   const section = document.getElementById("projects");
   const stage = document.getElementById("stage");
@@ -1510,22 +1690,74 @@ dialog button:hover {
   const hint = document.getElementById("hint");
   const dlg = document.getElementById("dlg");
 
-  const cards = projects.map(function (p, i) {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = "card";
-    b.innerHTML =
-      '<div class="card-media">0' + (i + 1) + '</div>' +
-      '<h3>' + p.title + '</h3><p>' + p.text + '</p>' +
-      '<div class="tags">' + p.tags.map(function (t) { return '<span>' + t + '</span>'; }).join("") + '</div>';
-    b.addEventListener("click", function () {
-      document.getElementById("dlgMedia").textContent = "0" + (i + 1);
-      document.getElementById("dlgTitle").textContent = p.title;
-      document.getElementById("dlgText").textContent = p.text;
-      dlg.showModal();
+  function openProject(i) {
+    const p = projects[i];
+
+    const media = document.getElementById("dlgMedia");
+    media.replaceChildren();
+    if (p.img) {
+      const im = document.createElement("img");
+      im.src = p.img;
+      im.alt = p.title;
+      media.appendChild(im);
+      media.style.display = "block";
+    } else {
+      media.style.display = "none";
+    }
+
+    document.getElementById("dlgTitle").textContent = p.title;
+
+    const body = document.getElementById("dlgText");
+    body.replaceChildren();
+    p.text.split("\n\n").forEach(function (para) {
+      const el = document.createElement("p");
+      el.textContent = para;
+      body.appendChild(el);
     });
-    grid.appendChild(b);
-    return b;
+
+    const tagBox = document.getElementById("dlgTags");
+    tagBox.replaceChildren();
+    p.tags.forEach(function (t) {
+      const s = document.createElement("span");
+      s.textContent = t;
+      tagBox.appendChild(s);
+    });
+
+    dlg.showModal();
+    dlg.scrollTop = 0;
+  }
+
+  const cards = projects.map(function (p, i) {
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const shown = p.tags.slice(0, MAX_TAGS);
+    const extra = p.tags.length - shown.length;
+
+    const media = p.img
+      ? '<img class="' + (p.imgFit === "contain" ? "fit-contain" : "") + '" src="' + esc(p.img) +
+        '" alt="' + esc(p.title) + '" loading="lazy" style="object-position:' + esc(p.imgPos || "center") + '">'
+      : "0" + (i + 1);
+
+      const preview = p.text.replace(/\n\n/g, " ");
+
+    card.innerHTML =
+      '<div class="card-media">' + media + '</div>' +
+      '<h3>' + esc(p.title) + '</h3>' +
+      '<p class="card-summary">' + esc(preview) + '</p>' +
+      '<div class="card-foot">' +
+        '<button type="button" class="card-more">Read more ' +
+          '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+        '</button>' +
+        '<div class="tags">' +
+          shown.map(function (t) { return '<span>' + esc(t) + '</span>'; }).join("") +
+          (extra > 0 ? '<span>+' + extra + '</span>' : "") +
+        '</div>' +
+      '</div>';
+
+    card.addEventListener("click", function () { openProject(i); });
+    grid.appendChild(card);
+    return card;
   });
 
   document.getElementById("dlgClose").addEventListener("click", function () { dlg.close(); });
@@ -1556,15 +1788,14 @@ dialog button:hover {
     const H = stage.clientHeight;
     const gap = 24;
     const cw = Math.min(300, (W - 64 - gap * 4) / cards.length);
-    const ch = cw * 1.25;
+    const ch = cw * 1.5;
     stage.style.setProperty("--cw", cw + "px");
     cards.forEach(function (c) { c.style.setProperty("--cw", cw + "px"); });
 
     const r = section.getBoundingClientRect();
-    
-    // Progress starts when the top of the section enters the bottom of the viewport (r.top = window.innerHeight)
-    // and completes right as the section reaches the top of the viewport (r.top = 0).
-    // This way, the row is already fully formed by the time the project section is in view, with zero scrolling in place!
+
+    // Progress runs from the section entering the bottom of the viewport (0)
+    // to its top reaching the top of the viewport (1).
     const p = clamp((window.innerHeight - r.top) / window.innerHeight, 0, 1);
 
     const spin = smooth(p / 0.7);
@@ -1701,13 +1932,16 @@ dialog button:hover {
   const dlgMedia = document.getElementById("dlgMedia");
   const dlgTitle = document.getElementById("dlgTitle");
   const dlgText = document.getElementById("dlgText");
+  const dlgTags = document.getElementById("dlgTags");
 
   document.querySelectorAll(".edu-course-btn").forEach(function (btn) {
     btn.addEventListener("click", function () {
       const isBsc = btn.getAttribute("data-courses") === "bsc";
       const list = isBsc ? bscCourses : mscCourses;
 
+      dlgMedia.replaceChildren();
       dlgMedia.style.display = "none";
+      dlgTags.replaceChildren();
       dlgTitle.textContent = isBsc
         ? "BSc Mechanical Engineering — Coursework"
         : "MSc Robotics — Coursework";
@@ -1723,12 +1957,6 @@ dialog button:hover {
     });
   });
 
-  // Restore media box when project cards are clicked
-  document.querySelectorAll("#projects .card").forEach(function (card) {
-    card.addEventListener("click", function () {
-      dlgMedia.style.display = "flex";
-    });
-  });
 
   // Draw smooth cubic Bezier curves between cards + horizontal connector with arrow
   const diagram = document.getElementById("eduDiagram");
