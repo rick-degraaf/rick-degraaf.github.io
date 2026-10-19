@@ -471,11 +471,206 @@ section:first-of-type {
   flex-shrink: 0;
 }
 
-/* 7. RESPONSIVE */
+/* 7. PROJECTS: ENTRANCE ANIMATION (NO SCROLL-LOCK) */
+#projects {
+  position: relative;
+  min-height: 90vh;
+  border-top: 1px solid var(--edge);
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
 
-/* Three cards side by side: media goes on top at full card width */
+.stage {
+  position: relative;
+  width: 100%;
+  max-width: var(--container);
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  perspective: 1400px;
+}
+
+.stage-head {
+  position: absolute;
+  top: 6.5rem;
+  left: 0;
+  right: 0;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 2rem;
+  z-index: 500;
+}
+
+.hint {
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+  margin-top: 0.25rem;
+}
+
+.card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--cw, 280px);
+  height: calc(var(--cw, 280px) * 1.25);
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: #fff;
+  border: 1px solid var(--edge);
+  border-radius: 20px;
+  padding: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  will-change: transform, opacity;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover, .card:focus-visible {
+  border-color: var(--ink-faint);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  outline: none;
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--ink-muted);
+  outline-offset: 3px;
+}
+
+.card-media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: 12px;
+  border: 1px solid var(--edge);
+  background: linear-gradient(135deg, #ededeb, #dcdcd9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 500;
+  color: rgba(23, 23, 23, 0.25);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.card h3 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  margin: 0.85rem 0 0.35rem;
+}
+
+.card p {
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+  line-height: 1.45;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: auto;
+}
+
+.tags span {
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--ink-muted);
+  border: 1px solid var(--edge);
+  border-radius: 9999px;
+  padding: 0.1rem 0.55rem;
+}
+
+/* Static fallback: narrow screens or reduced motion */
+#projects.static {
+  height: auto;
+}
+#projects.static .stage {
+  position: static;
+  height: auto;
+  overflow: visible;
+  perspective: none;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 6.5rem 2rem 4rem;
+}
+#projects.static .stage-head {
+  position: static;
+  padding: 0;
+  margin-bottom: 2rem;
+}
+#projects.static .hint {
+  display: none;
+}
+#projects.static .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+#projects.static .card {
+  position: static;
+  width: auto;
+  height: auto;
+  min-height: 360px;
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+/* ---------- Detail dialog ---------- */
+dialog {
+  margin: auto;
+  width: min(560px, calc(100% - 2rem));
+  border: 1px solid var(--edge);
+  border-radius: 20px;
+  padding: 1.5rem;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+dialog::backdrop {
+  background: rgba(23, 23, 23, 0.35);
+}
+dialog h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+dialog p {
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+}
+dialog .card-media {
+  margin-bottom: 1rem;
+  aspect-ratio: 16 / 9;
+}
+dialog button {
+  margin-top: 1.25rem;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--edge);
+  border-radius: 9999px;
+  background: #fff;
+  cursor: pointer;
+}
+dialog button:hover {
+  background: var(--bg-canvas);
+  border-color: var(--ink-faint);
+}
+
+/* 8. RESPONSIVE */
+
 @media (min-width: 1025px) {
-  /* Shared rows (header / body / footer) so every card's image and footer line up */
   .experience-track {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -540,9 +735,12 @@ section:first-of-type {
   .section-inner {
     padding: 5.5rem 1.25rem 3rem;
   }
+  .stage-head {
+    top: 5.5rem;
+    padding: 0 1.25rem;
+  }
 }
 
-/* Small phones: stack media above text inside cards */
 @media (max-width: 480px) {
   .exp-content-body {
     flex-direction: column;
@@ -573,12 +771,270 @@ section:first-of-type {
     transform: none;
   }
 }
+
+/* 9. EDUCATION TREE DIAGRAM */
+.edu-diagram {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  grid-template-rows: auto auto auto;
+  column-gap: 6rem;   /* more room for the connector + arrow */
+  row-gap: 3.5rem;    /* space between top cards, degree cards, bottom cards */
+  width: 100%;
+  margin-top: 3rem;
+  align-items: center;
+}
+
+.edu-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: visible;
+}
+
+.edu-branch {
+  fill: none;
+  stroke: #d4d4d0;
+  stroke-width: 2px;
+  stroke-linecap: round;
+}
+
+.edu-col {
+  grid-row: 1 / -1;
+  display: grid;
+  grid-template-rows: subgrid;   /* share the parent's rows so both degree cards align */
+  justify-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Top cards hug the degree card, bottom cards hug it from below */
+.edu-col > :first-child { align-self: end; }
+.edu-col > :last-child  { align-self: start; }
+.edu-col > .edu-degree-card { align-self: center; }
+
+.edu-top-pair {
+  display: grid;
+  grid-template-columns: 1.25fr 0.95fr;
+  gap: 1.25rem;
+  width: 100%;
+  align-items: end;
+}
+
+.edu-card {
+  background-color: #ffffff;
+  border: 1px solid var(--edge);
+  border-radius: 20px;
+  padding: 1.35rem 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+}
+
+.edu-card:hover {
+  border-color: var(--ink-faint);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* Main Degree Cards (Left Logo, Right Degree Name) */
+.edu-degree-card {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  width: 100%;
+  max-width: 500px;
+  padding: 1.4rem 1.65rem;
+}
+
+/* Larger TU Delft Logo for Degree Cards */
+.edu-degree-logo {
+  width: 136px;
+  height: 88px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.edu-degree-text h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+/* Sub-cards (Exchange, Thesis, Coursework) */
+.edu-branch-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.edu-thesis-card {
+  max-width: 380px;
+}
+
+.edu-kicker {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-faint);
+}
+
+.edu-branch-card h4 {
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.edu-branch-card p {
+  font-size: 0.82rem;
+  color: var(--ink-muted);
+  line-height: 1.45;
+}
+
+.edu-logo-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  margin-top: 0.15rem;
+}
+
+.edu-logo {
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.edu-media-wrapper {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--edge);
+  background-color: var(--bg-canvas);
+  margin: 0.35rem 0;
+}
+
+.edu-course-btn {
+  cursor: pointer;
+  max-width: 420px; /* widened from 340px to fit 7 pills across */
+}
+
+.edu-course-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Coursework Stacked Pyramid (Always active on desktop & mobile) */
+.course-pyramid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.22rem;
+  margin: 0.65rem 0 0.5rem;
+  width: 100%;
+}
+
+.pyramid-row {
+  display: flex;
+  justify-content: center;
+  gap: 0.22rem;
+  flex-wrap: nowrap;
+}
+
+.pyramid-pill {
+  font-family: var(--font-ui);
+  font-size: 0.52rem; /* compact so 7 pills fit cleanly */
+  font-weight: 500;
+  color: var(--ink-muted);
+  background: var(--bg-canvas);
+  border: 1px solid var(--edge);
+  border-radius: 5px;
+  padding: 0.12rem 0.28rem;
+  white-space: nowrap;
+  letter-spacing: -0.02em;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.edu-course-btn:hover .pyramid-pill {
+  border-color: #d4d4d0;
+  color: var(--ink);
+}
+
+/* Coursework Modal List Styling */
+.course-list-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  max-height: 55vh;
+  overflow-y: auto;
+  margin-top: 0.75rem;
+  padding-right: 0.5rem;
+}
+
+.course-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: 10px;
+  background: var(--bg-canvas);
+  border: 1px solid var(--edge);
+  font-size: 0.82rem;
+}
+
+.course-code {
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  min-width: 85px;
+}
+
+.course-name {
+  color: var(--ink-muted);
+}
+
+@media (max-width: 1024px) {
+  .edu-diagram {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+  .edu-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+  }
+  .edu-top-pair {
+    grid-template-columns: 1fr;
+  }
+  .edu-svg {
+    display: none;
+  }
+  .edu-degree-card,
+  .edu-thesis-card,
+  .edu-course-btn {
+    max-width: 100%;
+  }
+}
 </style>
 </head>
 
 <body>
 
-<!-- Shared icons (defined once, reused below) -->
+<!-- Shared icons -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></symbol>
   <symbol id="i-github" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></symbol>
@@ -741,12 +1197,13 @@ section:first-of-type {
   </section>
 
   <!-- PROJECTS -->
-  <section id="projects">
-    <div class="section-inner">
-      <h2 class="section-title">Projects</h2>
-      <p class="section-placeholder">
-        Section scaffold ready for content.
-      </p>
+  <section id="projects" aria-labelledby="projTitle">
+    <div class="stage" id="stage">
+      <div class="stage-head">
+        <h2 class="section-title" id="projTitle">Projects</h2>
+        <p class="hint" id="hint">Projects form as they enter view</p>
+      </div>
+      <div class="grid" id="grid"></div>
     </div>
   </section>
 
@@ -754,9 +1211,96 @@ section:first-of-type {
   <section id="education">
     <div class="section-inner">
       <h2 class="section-title">Education</h2>
-      <p class="section-placeholder">
-        Section scaffold ready for content.
-      </p>
+
+      <div class="edu-diagram" id="eduDiagram">
+        <!-- SVG layer for smooth dynamic branch curves + center arrow -->
+        <svg class="edu-svg" aria-hidden="true">
+          <path id="branch-bsc-exch" class="edu-branch" />
+          <path id="branch-bsc-course" class="edu-branch" />
+          <path id="branch-bsc-thesis" class="edu-branch" />
+          <path id="branch-msc-thesis" class="edu-branch" />
+          <path id="branch-msc-course" class="edu-branch" />
+          <path id="branch-bsc-msc" class="edu-branch" />
+          <g id="branch-bsc-msc-arrow">
+            <circle r="14" fill="var(--bg-canvas)" stroke="#d4d4d0" stroke-width="1.75" />
+            <path d="M -5 0 H 5 M 1 -4 L 5 0 L 1 4" fill="none" stroke="var(--ink-muted)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+          </g>
+        </svg>
+
+        <!-- LEFT COLUMN: BSc Mechanical Engineering -->
+        <div class="edu-col">
+          <!-- Top pair: International Exchange (top-left) + Coursework Pyramid (top-right) -->
+          <div class="edu-top-pair">
+            <div class="edu-card edu-branch-card" id="card-bsc-exch">
+              <span class="edu-kicker">International Exchange</span>
+              <div class="edu-logo-row">
+                <img src="assets/logo/waterloo.png" alt="University of Waterloo" class="edu-logo">
+                <div>
+                  <h4>University of Waterloo</h4>
+                  <p>6 month international exchange at University of Waterloo. Coursework focused on optimization &amp; electromechanical design.</p>
+                </div>
+              </div>
+            </div>
+
+            <button type="button" class="edu-card edu-branch-card edu-course-btn" id="card-bsc-course" data-courses="bsc">
+              <span class="edu-kicker">Coursework</span>
+              <h4>Selected courses</h4>
+              <div class="course-pyramid" id="bscPyramid"></div>
+              <p>Click to view all 29 BSc courses →</p>
+            </button>
+          </div>
+
+          <!-- Center Degree Card: BSc Mechanical Engineering -->
+          <div class="edu-card edu-degree-card" id="card-bsc-main">
+            <img src="assets/logo/international-logo_rgb.svg" alt="TU Delft" class="edu-degree-logo">
+            <div class="edu-degree-text">
+              <span class="edu-kicker">Bachelor of Science</span>
+              <h3>BSc Mechanical Engineering</h3>
+            </div>
+          </div>
+
+          <!-- Bottom Card: BSc Thesis -->
+          <div class="edu-card edu-branch-card edu-thesis-card" id="card-bsc-thesis">
+            <span class="edu-kicker">Thesis</span>
+            <h4>BSc Thesis: Tactile Gripper</h4>
+            <div class="edu-media-wrapper">
+              <img src="assets/animations/tactile_gripper.gif" alt="BSc Thesis: Tactile Gripper" class="exp-media" loading="lazy">
+            </div>
+            <p>Design, Prototyping and testing of an impedance-controlled tactile gripper for delicate fruit grasping.</p>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: MSc Robotics -->
+        <div class="edu-col">
+          <!-- Top Card: MSc Thesis -->
+          <div class="edu-card edu-branch-card edu-thesis-card" id="card-msc-thesis">
+            <span class="edu-kicker">Thesis</span>
+            <h4>MSc Thesis: Large Scale Urban Digital Twins for Autonomous Driving</h4>
+            <div class="edu-media-wrapper">
+              <img src="assets/animations/thesis.gif" alt="MSc Thesis: Urban Digital Twins" class="exp-media" loading="lazy">
+            </div>
+            <p>Developed a camera-only 3D Gaussian Splatting framework capable of reconstructing photorealistic, semantic and geometrically accurate 3D urban digital twins from self-collected LiDAR, Camera &amp; GPS Data.</p>
+          </div>
+
+          <!-- Center Degree Card: MSc Robotics -->
+          <div class="edu-card edu-degree-card" id="card-msc-main">
+            <img src="assets/logo/international-logo_rgb.svg" alt="TU Delft" class="edu-degree-logo">
+            <div class="edu-degree-text">
+              <span class="edu-kicker">Master of Science</span>
+              <h3>MSc Robotics</h3>
+            </div>
+          </div>
+
+          <!-- Bottom Card: MSc Coursework Pyramid -->
+          <button type="button" class="edu-card edu-branch-card edu-course-btn" id="card-msc-course" data-courses="msc">
+            <span class="edu-kicker">Coursework</span>
+            <h4>Selected courses</h4>
+            <div class="course-pyramid" id="mscPyramid"></div>
+            <p>Click to view all 16 MSc courses →</p>
+          </button>
+        </div>
+
+      </div>
     </div>
   </section>
 
@@ -787,6 +1331,13 @@ section:first-of-type {
 
 </main>
 
+<dialog id="dlg">
+  <div class="card-media" id="dlgMedia"></div>
+  <h3 id="dlgTitle"></h3>
+  <p id="dlgText"></p>
+  <button type="button" id="dlgClose">Close</button>
+</dialog>
+
 <script>
 (function () {
   const nav = document.getElementById("pillNav");
@@ -808,7 +1359,6 @@ section:first-of-type {
     indicator.style.width = activeLink.offsetWidth + "px";
     indicator.style.transform = "translateX(" + targetX + "px)";
 
-    // If the pill scrolls (very narrow screens), keep the active link visible
     if (nav.scrollWidth > nav.clientWidth) {
       nav.scrollTo({
         left: activeLink.offsetLeft - (nav.clientWidth - activeLink.offsetWidth) / 2,
@@ -931,19 +1481,325 @@ section:first-of-type {
     setActive(initialLink || navLinks[0]);
   }
 
-  // Start on DOM ready (not window.load) so heavy images don't delay the indicator
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initializeNavigation, { once: true });
   } else {
     initializeNavigation();
   }
 
-  // Web fonts change link widths, so re-measure once they load
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(function () {
       moveIndicator(currentActiveLink());
     });
   }
+})();
+
+// Projects Entrance Animation & Dialog (No scroll-lock runway; animates as it enters view)
+(function () {
+  const projects = [
+    { title: "", text: "Camera-only 3D reconstruction pipeline from the MSc thesis.", tags: ["Computer Vision", "3D"] },
+    { title: "Autonomous Apple Harvesting Robot", text: "As part of a Multi-Disciplinary Project, developed the ROS2 stack of a real harvesting robot in a team of 5. The Robots functionality included unfamiliar orchard mapping & navigation, apple detection & localization and manipulator control & grasping. I was responsible for the apple vision system, fine-tuning YOLOv8 on a self-collected and labeled dataset for real time apple-detection & classification. Combined with segmented stereo vision, able to detect ripe apples and locate them within ±5 cm.", tags: ["Python", "ROS2", "Computer Vision", "ML"] },
+    { title: "Haptic Handwriting Trainer", text: "As part of Control Human Robot Interaction, in a team of 4 we developed an impedance-controlled haptic application using a Haply device. The application aimed at guiding users through the writing of unfamiliar Greek symbols, using Dynamic Time Warping for trajectory alignment and a dynamic elipsoidal haptic correcting feeback, reducing writing error across a 14-participant trial.", tags: ["Impedance Control", "Python, Human Robot Interaction"] },
+    { title: "Camera and LiDAR Fusion for 3D Object Detection", text: "As part of Advanced Machine Perception project, extended the Centerpoint framework with a camera-modality in a team of 4. By adding a camera encoder and fusing BEV-features, we improved 3D object detection accuracy by +10.9%mAP over baseline on View-of-Delft dataset.", tags: ["Computer Vision", "Machine Learning"] },
+    { title: "Tactile Gripper", text: "As part of Bachelor Thesis in a team of 4, we designed, prototyped and tested a 3D mechanical design for a tactile gripper. Designed and parameterized a straigh line linkage for striagh line grasping, and designed a capstan drive for maximal backdrivability and control. Eneded upsuccesfully grasping a delicate nectatire with impedance control.", tags: ["CAD", "Rapid Prototyping", "Impedance Control", "Linkage & Transmission Design"] }
+  ];
+
+  const section = document.getElementById("projects");
+  const stage = document.getElementById("stage");
+  const grid = document.getElementById("grid");
+  const hint = document.getElementById("hint");
+  const dlg = document.getElementById("dlg");
+
+  const cards = projects.map(function (p, i) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "card";
+    b.innerHTML =
+      '<div class="card-media">0' + (i + 1) + '</div>' +
+      '<h3>' + p.title + '</h3><p>' + p.text + '</p>' +
+      '<div class="tags">' + p.tags.map(function (t) { return '<span>' + t + '</span>'; }).join("") + '</div>';
+    b.addEventListener("click", function () {
+      document.getElementById("dlgMedia").textContent = "0" + (i + 1);
+      document.getElementById("dlgTitle").textContent = p.title;
+      document.getElementById("dlgText").textContent = p.text;
+      dlg.showModal();
+    });
+    grid.appendChild(b);
+    return b;
+  });
+
+  document.getElementById("dlgClose").addEventListener("click", function () { dlg.close(); });
+  dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+
+  const TAU = Math.PI * 2;
+  const clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
+  const smooth = function (t) { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); };
+  const lerp = function (a, b, t) { return a + (b - a) * t; };
+
+  const reduceQuery = matchMedia("(prefers-reduced-motion: reduce)");
+  let isStatic = false;
+  let ticking = false;
+
+  function checkMode() {
+    isStatic = reduceQuery.matches || window.innerWidth < 1000;
+    section.classList.toggle("static", isStatic);
+    if (isStatic) {
+      cards.forEach(function (c) { c.style.transform = ""; c.style.opacity = ""; c.style.zIndex = ""; });
+    }
+  }
+
+  function layout() {
+    ticking = false;
+    if (isStatic) return;
+
+    const W = stage.clientWidth;
+    const H = stage.clientHeight;
+    const gap = 24;
+    const cw = Math.min(300, (W - 64 - gap * 4) / cards.length);
+    const ch = cw * 1.25;
+    stage.style.setProperty("--cw", cw + "px");
+    cards.forEach(function (c) { c.style.setProperty("--cw", cw + "px"); });
+
+    const r = section.getBoundingClientRect();
+    
+    // Progress starts when the top of the section enters the bottom of the viewport (r.top = window.innerHeight)
+    // and completes right as the section reaches the top of the viewport (r.top = 0).
+    // This way, the row is already fully formed by the time the project section is in view, with zero scrolling in place!
+    const p = clamp((window.innerHeight - r.top) / window.innerHeight, 0, 1);
+
+    const spin = smooth(p / 0.7);
+    const offset = (1 - spin) * TAU * 0.7;
+    const blend = smooth((p - 0.3) / 0.7);
+
+    const Rx = W * 0.3;
+    const Ry = H * 0.13;
+    const cy = H / 2 + 30;
+
+    hint.style.opacity = String(1 - clamp(p * 5, 0, 1));
+
+    cards.forEach(function (card, i) {
+      const a = (i * TAU) / cards.length + Math.PI / 2 + offset;
+      const sx = Math.cos(a);
+      const sy = Math.sin(a);
+      const depth = (sy + 1) / 2;
+
+      const orbit = {
+        x: sx * Rx,
+        y: sy * Ry,
+        s: 0.55 + 0.45 * depth,
+        o: 0.3 + 0.7 * depth,
+        ry: -sx * 28
+      };
+      const row = { x: (i - (cards.length - 1) / 2) * (cw + gap), y: 0, s: 1, o: 1, ry: 0 };
+
+      const x = lerp(orbit.x, row.x, blend);
+      const y = lerp(orbit.y, row.y, blend);
+      const s = lerp(orbit.s, row.s, blend);
+      const o = lerp(orbit.o, row.o, blend);
+      const ry = lerp(orbit.ry, row.ry, blend);
+
+      card.style.transform =
+        "translate3d(" + (W / 2 + x - cw / 2) + "px," + (cy + y - ch / 2) + "px,0) " +
+        "rotateY(" + ry + "deg) scale(" + s + ")";
+      card.style.opacity = o;
+      card.style.zIndex = Math.round(lerp(depth * 100, 50, blend));
+    });
+  }
+
+  function request() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(layout);
+  }
+
+  window.addEventListener("scroll", request, { passive: true });
+  window.addEventListener("resize", function () { checkMode(); request(); });
+  reduceQuery.addEventListener("change", function () { checkMode(); request(); });
+
+  checkMode();
+  layout();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+})();
+
+// Education Smooth Branches, Stacked Course Pyramid & Coursework Modal
+(function () {
+  const bscCourses = [
+    ["WBMT1050", "Mathematics 1"],
+    ["WBMT1051", "Mathematics 2"],
+    ["WB1135", "Introductory Dynamics"],
+    ["WB1530-14", "Thermodynamics"],
+    ["WB1630-20", "Statics"],
+    ["WB1631-15", "Mechanics of Materials"],
+    ["WB1641", "Design Engineering Project 1"],
+    ["WB1642", "Design Engineering Project 2"],
+    ["WB1643A", "Design Engineering Project 3A"],
+    ["WB1643B", "Design Engineering Project 3B"],
+    ["WBMT2048", "Mathematics 3"],
+    ["WBMT2049", "Mathematics 4"],
+    ["WB2235", "Signal Analysis"],
+    ["WB2330", "Materials Science"],
+    ["WB2542", "Fluid Mechanics and Heat Transfer"],
+    ["WB2630", "Advanced Mechanics"],
+    ["WB2232", "Project Robotics"],
+    ["WB2332", "Project Materials Sciences"],
+    ["WB2543", "Process Engineering and Thermodynamics"],
+    ["WB2632", "Advanced Engineering Design Project"],
+    ["CO 227", "Introduction to Optimization (Non-Specialist Level)"],
+    ["CS 105", "Introduction to Computer Programming 1"],
+    ["MTE 322", "Electromechanical Machine Design"],
+    ["PHYS 275", "Planets"],
+    ["SYDE 262", "Engineering Economics of design"],
+    ["WB3240", "Systems and Control Engineering"],
+    ["WB3135", "Integrated Mechanical Systems"],
+    ["WB3073", "The Engineer in Society"],
+    ["WB3BEP-16", "Bachelor End Project"]
+  ];
+
+  const mscCourses = [
+    ["RO47011", "Vision and Reflection"],
+    ["RO47001", "Robot Dynamics and Control"],
+    ["RO47002", "Machine Learning for Robotics"],
+    ["RO47003", "Robot Software Practicals"],
+    ["RO47004", "Machine Perception"],
+    ["RO47005", "Planning and Decision Making"],
+    ["RO47006", "Human Robot Interaction"],
+    ["RO47007", "Multidisciplinary Project"],
+    ["RO47008", "Robot and Society"],
+    ["RO47013", "Control in Human-Robot Interaction"],
+    ["RO47020", "Advanced Machine Perception"],
+    ["WI4425", "Financial Markets Theory"],
+    ["ME41085", "Biomechatronics"],
+    ["RO57015", "RO Internship / Research Assignment"],
+    ["RO57010-20", "RO Literature Research"],
+    ["RO57035", "RO MSc Thesis"]
+  ];
+
+  // Build Stacked Course Code Pyramids inside the Coursework Cards
+  function renderPyramid(containerId, courses, rowCounts) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    let idx = 0;
+    rowCounts.forEach(function (count) {
+      const row = document.createElement("div");
+      row.className = "pyramid-row";
+      for (let i = 0; i < count && idx < courses.length; i++) {
+        const pill = document.createElement("span");
+        pill.className = "pyramid-pill";
+        pill.textContent = courses[idx][0];
+        row.appendChild(pill);
+        idx++;
+      }
+      container.appendChild(row);
+    });
+  }
+
+  // 1 + 2 + 3 + 4 = 10 featured course codes stacked in a neat pyramid
+  renderPyramid("bscPyramid", bscCourses, [1, 2, 3, 4, 5, 6, 7]);
+  renderPyramid("mscPyramid", mscCourses, [1, 2, 3, 4, 5]);
+
+  const dlg = document.getElementById("dlg");
+  const dlgMedia = document.getElementById("dlgMedia");
+  const dlgTitle = document.getElementById("dlgTitle");
+  const dlgText = document.getElementById("dlgText");
+
+  document.querySelectorAll(".edu-course-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      const isBsc = btn.getAttribute("data-courses") === "bsc";
+      const list = isBsc ? bscCourses : mscCourses;
+
+      dlgMedia.style.display = "none";
+      dlgTitle.textContent = isBsc
+        ? "BSc Mechanical Engineering — Coursework"
+        : "MSc Robotics — Coursework";
+
+      dlgText.innerHTML =
+        '<div class="course-list-grid">' +
+        list.map(function (c) {
+          return '<div class="course-item"><span class="course-code">' + c[0] + '</span><span class="course-name">' + c[1] + '</span></div>';
+        }).join("") +
+        '</div>';
+
+      dlg.showModal();
+    });
+  });
+
+  // Restore media box when project cards are clicked
+  document.querySelectorAll("#projects .card").forEach(function (card) {
+    card.addEventListener("click", function () {
+      dlgMedia.style.display = "flex";
+    });
+  });
+
+  // Draw smooth cubic Bezier curves between cards + horizontal connector with arrow
+  const diagram = document.getElementById("eduDiagram");
+  function updateBranches() {
+    if (!diagram || window.innerWidth <= 1024) return;
+    const base = diagram.getBoundingClientRect();
+
+    function anchor(id, edge, ratio) {
+      const el = document.getElementById(id);
+      if (!el) return { x: 0, y: 0 };
+      const r = el.getBoundingClientRect();
+      const t = ratio !== undefined ? ratio : 0.5;
+      if (edge === "left") {
+        return { x: r.left - base.left, y: (r.top - base.top) + r.height * t };
+      }
+      if (edge === "right") {
+        return { x: r.right - base.left, y: (r.top - base.top) + r.height * t };
+      }
+      return {
+        x: (r.left - base.left) + r.width * t,
+        y: edge === "top" ? (r.top - base.top) : (r.bottom - base.top)
+      };
+    }
+
+    function setCurve(pathId, p1, p2) {
+      const path = document.getElementById(pathId);
+      if (!path) return;
+      const midY = (p1.y + p2.y) / 2;
+      path.setAttribute(
+        "d",
+        "M " + p1.x + " " + p1.y +
+        " C " + p1.x + " " + midY + ", " + p2.x + " " + midY + ", " + p2.x + " " + p2.y
+      );
+    }
+
+    // BSc branches (Top-left Exchange, Top-right Coursework, Bottom Thesis)
+    setCurve("branch-bsc-exch", anchor("card-bsc-main", "top", 0.38), anchor("card-bsc-exch", "bottom", 0.5));
+    setCurve("branch-bsc-course", anchor("card-bsc-main", "top", 0.62), anchor("card-bsc-course", "bottom", 0.5));
+    setCurve("branch-bsc-thesis", anchor("card-bsc-main", "bottom", 0.5), anchor("card-bsc-thesis", "top", 0.5));
+
+    // MSc branches (Top Thesis, Bottom Coursework)
+    setCurve("branch-msc-thesis", anchor("card-msc-main", "top", 0.5), anchor("card-msc-thesis", "bottom", 0.5));
+    setCurve("branch-msc-course", anchor("card-msc-main", "bottom", 0.5), anchor("card-msc-course", "top", 0.5));
+
+    // Horizontal line + centered arrow between BSc and MSc
+    const pBscRight = anchor("card-bsc-main", "right", 0.5);
+    const pMscLeft = anchor("card-msc-main", "left", 0.5);
+    const midX = (pBscRight.x + pMscLeft.x) / 2;
+    const midY = (pBscRight.y + pMscLeft.y) / 2;
+
+    const connPath = document.getElementById("branch-bsc-msc");
+    if (connPath) {
+      connPath.setAttribute(
+        "d",
+        "M " + pBscRight.x + " " + pBscRight.y +
+        " C " + midX + " " + pBscRight.y + ", " + midX + " " + pMscLeft.y + ", " + pMscLeft.x + " " + pMscLeft.y
+      );
+    }
+
+    const arrowGroup = document.getElementById("branch-bsc-msc-arrow");
+    if (arrowGroup) {
+      arrowGroup.setAttribute("transform", "translate(" + midX + ", " + midY + ")");
+    }
+  }
+
+  window.addEventListener("resize", updateBranches);
+  window.addEventListener("load", updateBranches);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(updateBranches);
+  }
+  requestAnimationFrame(updateBranches);
 })();
 </script>
 
