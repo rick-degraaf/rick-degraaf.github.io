@@ -823,6 +823,7 @@ dialog button:hover {
     max-width: 260px;
     margin: 0 auto;
   }
+  .skills-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 600px) {
@@ -851,6 +852,8 @@ dialog button:hover {
     top: 5.5rem;
     padding: 0 1.25rem;
   }
+  .skills-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .skills-heading-row { align-items: flex-start; flex-direction: column; gap: 0.25rem; }
 }
 
 @media (max-width: 480px) {
@@ -1149,6 +1152,70 @@ dialog button:hover {
   display: block;
 }
 
+.about-section-inner { gap: 0; }
+.skills-block {
+  width: 100%;
+  margin-top: 3.25rem;
+  padding-top: 0; /* removed padding since border is gone */
+  border-top: none; /* removed divider line */
+}
+.skills-heading-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.65rem;
+}
+.skills-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2.4vw, 1.8rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+.skills-note { color: var(--ink-muted); font-size: 0.875rem; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.75rem;
+}
+.skill-group { min-width: 0; }
+.skill-group h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.65rem;
+}
+.skill-icon {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+.skill-group ul { list-style: none; display: grid; gap: 0.35rem; }
+.skill-group li { color: var(--ink-muted); font-size: 0.92rem; line-height: 1.55; }
+.skill-tools {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--edge);
+  color: var(--ink-muted);
+  font-size: 0.875rem;
+  line-height: 1.8;
+}
+.skill-tools strong { color: var(--ink); font-weight: 500; margin-right: 0.55rem; }
+.skill-tools span { white-space: nowrap; }
+.skill-tools .dot { color: #b8b8b8; padding: 0 0.45rem; }
+
+
 </style>
 </head>
 
@@ -1160,6 +1227,10 @@ dialog button:hover {
   <symbol id="i-github" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></symbol>
   <symbol id="i-mail" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></symbol>
   <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></symbol>
+  <symbol id="i-robotics" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 4h6M8 13h.01M16 13h.01M9 17h6M2 12v4M22 12v4"/></symbol>
+  <symbol id="i-vision" viewBox="0 0 24 24"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-ai" viewBox="0 0 24 24"><circle cx="5" cy="6" r="2.5"/><circle cx="5" cy="18" r="2.5"/><circle cx="19" cy="12" r="2.5"/><path d="m7.2 7.2 9.6 3.6M7.2 16.8 16.5 13"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="m9 9-3 3 3 3M15 9l3 3-3 3M13.5 8l-3 8"/></symbol>
 </svg>
 
 <header class="nav-wrapper">
@@ -1177,31 +1248,79 @@ dialog button:hover {
 
   <!-- ABOUT -->
   <section id="about">
-    <div class="section-inner about-container">
-      <div class="about-text">
-        <h1 class="hero-name">Rick de Graaf</h1>
-        <p class="about-bio">
-          Welcome to my portfolio! Here, I showcase my experience, projects, and education. I'm currently exploring opportunities within robotics, computer vision & AI. <br> Feel free to reach out, I'm always open to chat!
-        </p>
+    <div class="section-inner about-section-inner"> <!-- Changed class here -->
+      <div class="about-container">
+        <div class="about-text">
+          <h1 class="hero-name">Rick de Graaf</h1>
+          <p class="about-bio">
+            Welcome to my portfolio! Here, I showcase my experience, projects, and education. I'm currently exploring opportunities within robotics, computer vision & AI. <br> Feel free to reach out, I'm always open to chat!
+          </p>
 
-        <div class="about-socials">
-          <a href="https://linkedin.com/in/rjbdegraaf/" target="_blank" rel="noopener noreferrer" class="social-btn">
-            <svg class="social-icon" aria-hidden="true"><use href="#i-linkedin"/></svg>
-            <span>LinkedIn</span>
-          </a>
-          <a href="https://github.com/rick-degraaf" target="_blank" rel="noopener noreferrer" class="social-btn">
-            <svg class="social-icon" aria-hidden="true"><use href="#i-github"/></svg>
-            <span>GitHub</span>
-          </a>
-          <a href="mailto:rick.j.b.degraaf@gmail.com" class="social-btn">
-            <svg class="social-icon" aria-hidden="true"><use href="#i-mail"/></svg>
-            <span>Email</span>
-          </a>
+          <div class="about-socials">
+            <a href="https://linkedin.com/in/rjbdegraaf/" target="_blank" rel="noopener noreferrer" class="social-btn">
+              <svg class="social-icon" aria-hidden="true"><use href="#i-linkedin"/></svg>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://github.com/rick-degraaf" target="_blank" rel="noopener noreferrer" class="social-btn">
+              <svg class="social-icon" aria-hidden="true"><use href="#i-github"/></svg>
+              <span>GitHub</span>
+            </a>
+            <a href="mailto:rick.j.b.degraaf@gmail.com" class="social-btn">
+              <svg class="social-icon" aria-hidden="true"><use href="#i-mail"/></svg>
+              <span>Email</span>
+            </a>
+          </div>
+        </div>
+        <div class="about-image-wrapper">
+          <img src="assets/images/profile.jpg" alt="Rick de Graaf" class="profile-img">
         </div>
       </div>
-      <div class="about-image-wrapper">
-        <img src="assets/images/profile.jpg" alt="Rick de Graaf" class="profile-img">
+
+      <!-- ADD THIS SKILLS BLOCK -->
+      <div class="skills-block" aria-labelledby="skills-title">
+        <div class="skills-heading-row">
+          <h2 class="skills-title" id="skills-title">Skills</h2>
+        </div>
+        <div class="skills-grid">
+          <div class="skill-group">
+            <h3><svg class="skill-icon" aria-hidden="true"><use href="#i-robotics"/></svg><span>Robotics</span></h3>
+            <ul>
+              <li>ROS 2</li>
+              <li>Sensor Integration & Calibration (Camera, LiDAR, GPS)</li>
+              <li>Machine Perception</li>
+              <li>Motion planning & Control</li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <h3><svg class="skill-icon" aria-hidden="true"><use href="#i-vision"/></svg><span>Computer Vision</span></h3>
+            <ul>
+              <li>Structure-from-Motion</li>
+              <li>3D Gaussian Splatting</li>
+              <li>3D Object Detection & Tracking</li>
+              <li>Semantic Segmentation</li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <h3><svg class="skill-icon" aria-hidden="true"><use href="#i-ai"/></svg><span>AI &amp; Machine Learning</span></h3>
+            <ul>
+              <li>Classic ML</li>
+              <li>Deep learning</li>
+              <li>Vision-language models</li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <h3><svg class="skill-icon" aria-hidden="true"><use href="#i-code"/></svg><span>Software</span></h3>
+            <ul>
+              <li>Python</li>
+              <li>PyTorch</li>
+              <li>C++</li>
+              <li>Git · Linux</li>
+            </ul>
+          </div>
+        </div>
       </div>
+      <!-- END SKILLS BLOCK -->
+
     </div>
   </section>
 
@@ -1297,7 +1416,7 @@ dialog button:hover {
 
           <div class="exp-content-body">
             <div class="exp-text-details">
-              <p>Performed a summer 1-month intership within the Shell renewables department.</p>
+              <p>Performed a summer 1-month internship within the Shell renewables department.</p>
               <ul class="exp-bullets">
                 <li>Investigated Rare Earth Element (REE) use in wind turbines from major suppliers, including GE, Siemens, and Vestas. </li>
                 <li>Identified potential alternative materials and presented recommendations to the Renewables team.</li>
